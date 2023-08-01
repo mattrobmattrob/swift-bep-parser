@@ -1,0 +1,39 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# One active job per PR, cancel older ones on push
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: Build and Test
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v3
+      - name: Select Xcode
+        run: .github/workflows/xcode_select.sh
+      - name: Lint
+        run: bazelisk run :lint && git diff --exit-code
+      - name: Build and Test
+        run: |
+          # Build the app
+          bazelisk build -- //app
+
+          # Run the tests
+          bazelisk test --local_test_jobs=1 -- //...
+      - name: Generate Xcode Project
+        run: |
+          # Generate Xcode project
+          bazelisk run -- //:xcodeproj
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: bazel-testlogs
+          path: bazel-testlogs

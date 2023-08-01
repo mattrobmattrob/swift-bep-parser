@@ -1,0 +1,54 @@
+## BUILD
+
+# https://bazel.build/reference/command-line-reference#flag--incompatible_strict_action_env
+build --incompatible_strict_action_env
+
+# Disable the worker, which has sandboxing disabled by default, which can hide
+# issues with non-hermetic bugs.
+build --spawn_strategy=sandboxed,local
+build --worker_sandboxing=true
+
+build --incompatible_disallow_empty_glob
+
+build --features=swift.use_global_module_cache
+
+# Enable indexing while building.
+build --features swift.use_global_index_store
+build --features swift.index_while_building
+
+# Since there's no way to set the deployment version for swift_{binary,test},
+# this forces all targets' minimum macOS to Github Actions macOS version.
+build --macos_minimum_os=12.6
+
+## TEST
+
+# `bazel test` tries to build everything also by default, so skip that so the
+# *_library targets in examples/... aren't built (and fail since they are
+# platform specific).
+test --build_tests_only
+
+# Show detailed errors for test failures
+test --test_output=errors
+
+# Use llvm-cov instead of gcov (default).
+coverage --experimental_use_llvm_covmap
+
+## REMOTE CACHE
+
+# Do actions locally when it makes sense.
+build --modify_execution_info=^(BitcodeSymbolsCopy|BundleApp|BundleTreeApp|DsymDwarf|DsymLipo|GenerateAppleSymbolsFile|ObjcBinarySymbolStrip|CppLink|ObjcLink|ProcessAndSign|SignBinary|SwiftArchive|SwiftStdlibCopy)$=+no-remote,^(BundleResources|ImportedDynamicFrameworkProcessor)$=+no-remote-exec
+
+build:remote_cache --bes_results_url=https://app.buildbuddy.io/invocation/
+build:remote_cache --bes_backend=grpcs://remote.buildbuddy.io
+build:remote_cache --remote_cache=grpcs://remote.buildbuddy.io
+# https://bazel.build/reference/command-line-reference#flag--remote_download_toplevel
+build:remote_cache --remote_download_toplevel
+# https://bazel.build/reference/command-line-reference#flag--remote_timeout
+build:remote_cache --remote_timeout=3600
+# https://bazel.build/reference/command-line-reference#flag--experimental_remote_cache_compression
+build:remote_cache --experimental_remote_cache_compression
+
+## LOCAL CONFIG
+
+# Load a user.bazelrc
+try-import %workspace%/user.bazelrc
