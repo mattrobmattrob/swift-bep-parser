@@ -14,7 +14,7 @@ concurrency:
 jobs:
   tests:
     name: Build and Test
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
       - name: Select Xcode
@@ -23,9 +23,6 @@ jobs:
         run: bazelisk run :lint && git diff --exit-code
       - name: Build and Test
         run: |
-          # Build the app
-          bazelisk build -- //app
-
           # Run the tests
           bazelisk test --local_test_jobs=1 -- //...
       - name: Generate Xcode Project

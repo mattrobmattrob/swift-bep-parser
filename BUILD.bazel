@@ -1,26 +1,55 @@
 load(
+    "@build_bazel_rules_apple//apple:macos.bzl",
+    "macos_unit_test",
+)
+load(
+    "@build_bazel_rules_swift//swift:swift.bzl",
+    "swift_library",
+)
+load(
     "@rules_xcodeproj//xcodeproj:defs.bzl",
     "top_level_target",
     "xcodeproj",
+)
+load("//tools:shared.bzl", "versions")
+
+package(default_visibility = ["@rules_xcodeproj//xcodeproj:generated"])
+
+# Library
+
+swift_library(
+    name = "SwiftBEPParser",
+    srcs = glob(["Sources/**"]),
+    module_name = "SwiftBEPParser",
+)
+
+# Tests
+
+swift_library(
+    name = "SwiftBEPParserTestsLib",
+    testonly = True,
+    srcs = glob(["Tests/**"]),
+    module_name = "SwiftBEPParserTests",
+    deps = [
+        ":SwiftBEPParser",
+    ],
+)
+
+macos_unit_test(
+    name = "SwiftBEPParserTests",
+    bundle_id = "com.mattrobmattrob.swift-bep-parser-tests",
+    minimum_os_version = versions.minimum_macos_version,
+    deps = [":SwiftBEPParserTestsLib"],
 )
 
 # Xcode
 
 xcodeproj(
     name = "xcodeproj",
-    project_name = "App",
+    project_name = "swift-bep-parser",
     top_level_targets = [
         top_level_target(
-            "//app",
-            target_environments = ["simulator"],
-        ),
-        top_level_target(
-            "//modules/API:APITests",
-            target_environments = ["simulator"],
-        ),
-        top_level_target(
-            "//modules/Models:ModelsTests",
-            target_environments = ["simulator"],
+            ":SwiftBEPParserTests",
         ),
     ],
 )
