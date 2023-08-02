@@ -3,6 +3,10 @@ load(
     "macos_unit_test",
 )
 load(
+    "@build_bazel_rules_apple//apple:resources.bzl",
+    "apple_resource_bundle",
+)
+load(
     "@build_bazel_rules_swift//swift:swift.bzl",
     "swift_library",
     "swift_module_alias",
@@ -47,13 +51,20 @@ swift_library(
 
 # Tests
 
+apple_resource_bundle(
+    name = "SwiftBEPParserTestsResources",
+    infoplists = [":Tests/Info.plist"],
+    resources = glob(["Tests/fixtures/**"]),
+)
+
 swift_library(
     name = "SwiftBEPParserTestsLib",
     testonly = True,
-    srcs = glob(["Tests/**"]),
+    srcs = glob(["Tests/**/*.swift"]),
     module_name = "SwiftBEPParserTests",
     deps = [
         ":SwiftBEPParser",
+        ":SwiftBEPParserTestsResources",
     ],
 )
 
