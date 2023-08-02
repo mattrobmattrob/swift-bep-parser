@@ -41,7 +41,7 @@ swift_library(
     srcs = glob(["Sources/**"]),
     module_name = "SwiftBEPParser",
     deps = [
-        ":build_event_stream_proto_swift_alias",
+        ":build_event_stream_proto_swift",
     ],
 )
 
