@@ -5,6 +5,8 @@ load(
 load(
     "@build_bazel_rules_swift//swift:swift.bzl",
     "swift_library",
+    "swift_module_alias",
+    "swift_proto_library",
 )
 load(
     "@rules_xcodeproj//xcodeproj:defs.bzl",
@@ -17,10 +19,30 @@ package(default_visibility = ["@rules_xcodeproj//xcodeproj:generated"])
 
 # Library
 
+swift_proto_library(
+    name = "build_event_stream_proto_swift_internal",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@io_bazel//src/main/java/com/google/devtools/build/lib/buildeventstream/proto:build_event_stream_proto",
+    ],
+)
+
+# Rename the Swift module so we can use `import build_event_stream_proto` instead
+# of the more complex:
+#    import src_main_java_com_google_devtools_build_lib_buildeventstream_proto_build_event_stream_proto
+swift_module_alias(
+    name = "build_event_stream_proto_swift",
+    module_name = "build_event_stream_proto",
+    deps = [":build_event_stream_proto_swift_internal"],
+)
+
 swift_library(
     name = "SwiftBEPParser",
     srcs = glob(["Sources/**"]),
     module_name = "SwiftBEPParser",
+    deps = [
+        ":build_event_stream_proto_swift_alias",
+    ],
 )
 
 # Tests

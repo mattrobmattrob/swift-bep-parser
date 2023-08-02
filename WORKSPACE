@@ -1,5 +1,18 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+# Python
+
+http_archive(
+    name = "rules_python",
+    sha256 = "0a8003b044294d7840ac7d9d73eef05d6ceb682d7516781a4ec62eeb34702578",
+    strip_prefix = "rules_python-0.24.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.24.0/rules_python-0.24.0.tar.gz",
+)
+
+load("@rules_python//python:repositories.bzl", "py_repositories")
+
+py_repositories()
+
 # rules_xcodeproj
 
 http_archive(
@@ -44,6 +57,21 @@ load(
 )
 
 apple_support_dependencies()
+
+# Bazel
+
+http_archive(
+    name = "io_bazel",
+    patch_args = ["-p1"],
+    patches = [
+        "//tools:patches/0001-Make-build_event_stream_proto-public-visibility.patch",
+    ],
+    sha256 = "533f52feedaa50fe67655f6e0573ac4e89b6bf7d5000eb3abeb06f1dc0d47f93",
+    strip_prefix = "bazel-88d4b1b08c3dc41ff265d57c84a9effb7d7191f0",
+    urls = [
+        "https://github.com/bazelbuild/bazel/archive/88d4b1b08c3dc41ff265d57c84a9effb7d7191f0.tar.gz",
+    ],
+)
 
 # Buildifier
 

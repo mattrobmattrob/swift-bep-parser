@@ -1,0 +1,25 @@
+From 58cccbe78bde16b4c848825d0b22944c36d4aa74 Mon Sep 17 00:00:00 2001
+From: Matt Robinson <mattrob@hey.com>
+Date: Tue, 1 Aug 2023 18:35:26 -0600
+Subject: [PATCH] Make build_event_stream_proto public visibility
+
+Signed-off-by: Matt Robinson <mattrob@hey.com>
+---
+ .../com/google/devtools/build/lib/buildeventstream/proto/BUILD   | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/main/java/com/google/devtools/build/lib/buildeventstream/proto/BUILD b/src/main/java/com/google/devtools/build/lib/buildeventstream/proto/BUILD
+index a886400727..a54322e0c2 100644
+--- a/src/main/java/com/google/devtools/build/lib/buildeventstream/proto/BUILD
++++ b/src/main/java/com/google/devtools/build/lib/buildeventstream/proto/BUILD
+@@ -25,6 +25,7 @@ java_proto_library(
+ proto_library(
+     name = "build_event_stream_proto",
+     srcs = ["build_event_stream.proto"],
++    visibility = ["//visibility:public"],
+     deps = [
+         "//src/main/java/com/google/devtools/build/lib/packages/metrics:package_load_metrics_proto",
+         "//src/main/protobuf:action_cache_proto",
+-- 
+2.39.2 (Apple Git-143)
+
