@@ -66,10 +66,10 @@ http_archive(
     patches = [
         "//tools:patches/0001-Make-build_event_stream_proto-public-visibility.patch",
     ],
-    sha256 = "533f52feedaa50fe67655f6e0573ac4e89b6bf7d5000eb3abeb06f1dc0d47f93",
-    strip_prefix = "bazel-88d4b1b08c3dc41ff265d57c84a9effb7d7191f0",
+    sha256 = "a56f2b1e81fe84df26d4245fde0765e3eb631075f12ab981bab105a42db26e2a",
+    strip_prefix = "bazel-296af602cd2a27a9d10ce5f46c99b42b6ab4367b",
     urls = [
-        "https://github.com/bazelbuild/bazel/archive/88d4b1b08c3dc41ff265d57c84a9effb7d7191f0.tar.gz",
+        "https://github.com/bazelbuild/bazel/archive/296af602cd2a27a9d10ce5f46c99b42b6ab4367b.tar.gz",
     ],
 )
 
