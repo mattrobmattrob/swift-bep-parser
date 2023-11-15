@@ -8,7 +8,10 @@ final class SwiftBEPParserTests: XCTestCase {
   }
 
   /// Access file recorded via `--build_event_binary_file`.
-  private func fixtureBuildEventFile(name: String, fileExtension: String = "bep") throws -> String {
+  private func fixtureBuildEventFile(
+    name: String,
+    fileExtension: String = "bep"
+  ) throws -> URL {
     guard let fixtureBundlePath = Bundle(
       for: SwiftBEPParserTests.self
     ).path(forResource: "SwiftBEPParserTestsResources", ofType: "bundle"),
@@ -17,14 +20,18 @@ final class SwiftBEPParserTests: XCTestCase {
       throw InternalError.missingResourceBundle
     }
 
-    return resourcePath
+    return URL(filePath: resourcePath)
   }
 
   func test_SuccessBEP() throws {
-    XCTAssertNoThrow(try fixtureBuildEventFile(name: "macos_build_success"))
+    let url = try fixtureBuildEventFile(name: "macos_build_success")
+    let events = try SwiftBEPParser.parse(url)
+    XCTAssertEqual(events.count, 25)
   }
 
   func test_FailureBEP() throws {
-    XCTAssertNoThrow(try fixtureBuildEventFile(name: "macos_build_failure"))
+    let url = try fixtureBuildEventFile(name: "macos_build_failure")
+    let events = try SwiftBEPParser.parse(url)
+    XCTAssertEqual(events.count, 23)
   }
 }

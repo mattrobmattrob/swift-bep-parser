@@ -1,3 +1,3 @@
 versions = struct(
-    minimum_macos_version = "12.0",
+    minimum_macos_version = "13.0",
 )
