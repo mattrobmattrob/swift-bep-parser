@@ -1,0 +1,31 @@
+diff --git a/google/devtools/build/v1/BUILD.bazel b/google/devtools/build/v1/BUILD.bazel
+index 9ac62c025..f10948b23 100644
+--- a/google/devtools/build/v1/BUILD.bazel
++++ b/google/devtools/build/v1/BUILD.bazel
+@@ -51,9 +51,26 @@ proto_library(
+     srcs = [
+         "build_events.proto",
+         "build_status.proto",
++    ],
++    deps = [
++        "//google/api:annotations_proto",
++        "//google/api:client_proto",
++        "//google/api:field_behavior_proto",
++        "@com_google_protobuf//:any_proto",
++        "@com_google_protobuf//:duration_proto",
++        "@com_google_protobuf//:empty_proto",
++        "@com_google_protobuf//:timestamp_proto",
++        "@com_google_protobuf//:wrappers_proto",
++    ],
++)
++
++proto_library(
++    name = "publish_build_event_proto",
++    srcs = [
+         "publish_build_event.proto",
+     ],
+     deps = [
++        ":build_proto",
+         "//google/api:annotations_proto",
+         "//google/api:client_proto",
+         "//google/api:field_behavior_proto",
