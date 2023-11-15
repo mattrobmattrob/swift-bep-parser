@@ -1,79 +1,10 @@
 load(
-    "@build_bazel_rules_apple//apple:macos.bzl",
-    "macos_unit_test",
-)
-load(
-    "@build_bazel_rules_apple//apple:resources.bzl",
-    "apple_resource_bundle",
-)
-load(
-    "@build_bazel_rules_swift//swift:swift.bzl",
-    "swift_library",
-    "swift_module_alias",
-    "swift_proto_library",
-)
-load(
     "@rules_xcodeproj//xcodeproj:defs.bzl",
     "top_level_target",
     "xcodeproj",
 )
-load("//tools:shared.bzl", "versions")
 
 package(default_visibility = ["@rules_xcodeproj//xcodeproj:generated"])
-
-# Library
-
-swift_proto_library(
-    name = "build_event_stream_proto_swift_internal",
-    visibility = ["//visibility:public"],
-    deps = [
-        "@io_bazel//src/main/java/com/google/devtools/build/lib/buildeventstream/proto:build_event_stream_proto",
-    ],
-)
-
-# Rename the Swift module so we can use `import build_event_stream_proto` instead
-# of the more complex:
-#    import src_main_java_com_google_devtools_build_lib_buildeventstream_proto_build_event_stream_proto
-swift_module_alias(
-    name = "build_event_stream_proto_swift",
-    module_name = "build_event_stream_proto",
-    deps = [":build_event_stream_proto_swift_internal"],
-)
-
-swift_library(
-    name = "SwiftBEPParser",
-    srcs = glob(["Sources/**"]),
-    module_name = "SwiftBEPParser",
-    deps = [
-        ":build_event_stream_proto_swift",
-    ],
-)
-
-# Tests
-
-apple_resource_bundle(
-    name = "SwiftBEPParserTestsResources",
-    infoplists = [":Tests/Info.plist"],
-    resources = glob(["Tests/fixtures/**"]),
-)
-
-swift_library(
-    name = "SwiftBEPParserTestsLib",
-    testonly = True,
-    srcs = glob(["Tests/**/*.swift"]),
-    module_name = "SwiftBEPParserTests",
-    deps = [
-        ":SwiftBEPParser",
-        ":SwiftBEPParserTestsResources",
-    ],
-)
-
-macos_unit_test(
-    name = "SwiftBEPParserTests",
-    bundle_id = "com.mattrobmattrob.swift-bep-parser-tests",
-    minimum_os_version = versions.minimum_macos_version,
-    deps = [":SwiftBEPParserTestsLib"],
-)
 
 # Xcode
 
@@ -82,7 +13,10 @@ xcodeproj(
     project_name = "swift-bep-parser",
     top_level_targets = [
         top_level_target(
-            ":SwiftBEPParserTests",
+            "//SwiftBEPParser:SwiftBEPParserTests",
+        ),
+        top_level_target(
+            "//BuildEventServiceServer",
         ),
     ],
 )
