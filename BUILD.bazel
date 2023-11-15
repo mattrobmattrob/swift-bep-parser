@@ -4,8 +4,6 @@ load(
     "xcodeproj",
 )
 
-package(default_visibility = ["@rules_xcodeproj//xcodeproj:generated"])
-
 # Xcode
 
 xcodeproj(
@@ -14,9 +12,6 @@ xcodeproj(
     top_level_targets = [
         top_level_target(
             "//SwiftBEPParser:SwiftBEPParserTests",
-        ),
-        top_level_target(
-            "//BuildEventServiceServer",
         ),
     ],
 )
