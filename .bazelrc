@@ -18,7 +18,8 @@ build --features swift.index_while_building
 
 # Since there's no way to set the deployment version for swift_{binary,test},
 # this forces all targets' minimum macOS to Github Actions macOS version.
-build --macos_minimum_os=12.6
+build --host_macos_minimum_os=13.0
+build --macos_minimum_os=13.0
 
 ## TEST
 
@@ -32,6 +33,11 @@ test --test_output=errors
 
 # Use llvm-cov instead of gcov (default).
 coverage --experimental_use_llvm_covmap
+
+build --enable_platform_specific_config
+build:macos --apple_crosstool_top=@local_config_apple_cc//:toolchain
+build:macos --crosstool_top=@local_config_apple_cc//:toolchain
+build:macos --host_crosstool_top=@local_config_apple_cc//:toolchain
 
 ## REMOTE CACHE
 
