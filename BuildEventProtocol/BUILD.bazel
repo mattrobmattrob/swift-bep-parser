@@ -20,7 +20,7 @@ swift_proto_library(
 #    import src_main_java_com_google_devtools_build_lib_buildeventstream_proto_build_event_stream_proto
 swift_module_alias(
     name = "build_event_stream_proto_swift",
-    module_name = "build_event_stream_proto",
+    module_name = "BuildEventProtocol_build_event_stream_proto",
     visibility = ["//visibility:public"],
     deps = [":build_event_stream_proto_swift_internal"],
 )
