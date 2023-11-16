@@ -59,17 +59,6 @@ load("@bazel_features//:deps.bzl", "bazel_features_deps")
 
 bazel_features_deps()
 
-# Bazel
-
-## GRPC
-
-load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
-
-# Disable all languages since we just want the gRPC proto.
-switched_rules_by_language(
-    name = "com_google_googleapis_imports",
-)
-
 # Development Dependencies
 
 ## Buildifier
