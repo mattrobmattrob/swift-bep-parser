@@ -67,28 +67,12 @@ def swift_bep_parser_dependencies():
         name = "io_bazel",
         patch_args = ["-p1"],
         patches = [
-            "//tools:patches/0001-Make-build_event_stream_proto-public-visibility.patch",
+            "@swift_bep_parser//tools:patches/0001-Make-build_event_stream_proto-public-visibility.patch",
         ],
         sha256 = "a56f2b1e81fe84df26d4245fde0765e3eb631075f12ab981bab105a42db26e2a",
         strip_prefix = "bazel-296af602cd2a27a9d10ce5f46c99b42b6ab4367b",
         urls = [
             "https://github.com/bazelbuild/bazel/archive/296af602cd2a27a9d10ce5f46c99b42b6ab4367b.tar.gz",
-        ],
-    )
-
-    ## GRPC
-
-    _maybe(
-        http_archive,
-        name = "com_google_googleapis",
-        patch_args = ["-p1"],
-        patches = [
-            "//tools:patches/0002-Add-swift-build-proto.patch",
-        ],
-        sha256 = "fb410aac4f2a5622528ed60812ca79812a81dabc1d30be799be9f1ad6ed78435",
-        strip_prefix = "googleapis-f02530723b94cca98756b7e14d542444e591ee32",
-        urls = [
-            "https://github.com/googleapis/googleapis/archive/f02530723b94cca98756b7e14d542444e591ee32.tar.gz",
         ],
     )
 
