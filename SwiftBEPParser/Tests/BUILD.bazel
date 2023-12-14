@@ -1,0 +1,39 @@
+load(
+    "@build_bazel_rules_apple//apple:macos.bzl",
+    "macos_unit_test",
+)
+load(
+    "@build_bazel_rules_apple//apple:resources.bzl",
+    "apple_resource_bundle",
+)
+load(
+    "@build_bazel_rules_swift//swift:swift.bzl",
+    "swift_library",
+)
+load("//tools:shared.bzl", "versions")
+
+package(default_visibility = ["@rules_xcodeproj//xcodeproj:generated"])
+
+apple_resource_bundle(
+    name = "SwiftBEPParserTestsResources",
+    infoplists = [":Info.plist"],
+    resources = glob(["fixtures/**"]),
+)
+
+swift_library(
+    name = "SwiftBEPParserTestsLib",
+    testonly = True,
+    srcs = glob(["**/*.swift"]),
+    module_name = "SwiftBEPParserTests",
+    deps = [
+        ":SwiftBEPParserTestsResources",
+        "//SwiftBEPParser/Sources:SwiftBEPParser",
+    ],
+)
+
+macos_unit_test(
+    name = "SwiftBEPParserTests",
+    bundle_id = "com.mattrobmattrob.swift-bep-parser-tests",
+    minimum_os_version = versions.minimum_macos_version,
+    deps = [":SwiftBEPParserTestsLib"],
+)
