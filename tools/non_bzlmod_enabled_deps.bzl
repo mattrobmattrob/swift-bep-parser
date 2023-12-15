@@ -1,4 +1,4 @@
-"""Defines a module extension for loading dependencies for the swift_bep_parser module that dont support bzlmod."""
+"""Defines a module extension for loading non-bzlmod dependencies for the swift_bep_parser module."""
 
 load("//tools:repositories.bzl", "swift_bep_parser_dependencies")
 
