@@ -13,6 +13,9 @@ concurrency:
 
 jobs:
   tests:
+    strategy:
+      matrix:
+        bzlmod: ["--enable_bzlmod", "--noenable_bzlmod"]
     name: Build and Test
     runs-on: macos-13
     steps:
@@ -24,7 +27,7 @@ jobs:
       - name: Build and Test
         run: |
           # Run the tests
-          bazelisk test --local_test_jobs=1 -- //...
+          bazelisk test --local_test_jobs=1 ${{ matrix.bzlmod }} -- //...
       - name: Generate Xcode Project
         run: |
           # Generate Xcode project
