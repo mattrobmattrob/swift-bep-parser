@@ -1,8 +1,11 @@
+matrix:
+  bazel: ["7.x", "rolling"]
+
 tasks:
   verify_build_targets:
     name: Verify Build targets on macOS
     platform: macos_arm64
-    bazel: "7.x"
+    bazel: ${{ bazel }}
     build_targets:
       - "@swift_bep_parser//SwiftBEPParser/Sources:SwiftBEPParser"
     build_flags:
