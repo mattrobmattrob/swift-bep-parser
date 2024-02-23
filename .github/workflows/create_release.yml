@@ -40,7 +40,7 @@ jobs:
             --target "$GITHUB_REF_NAME" \
             --generate-notes \
             --notes-file notes.md \
-            "rules_ios.$TAG.tar.gz"
+            "swift-bep-parser.$TAG.tar.gz"
         env:
           TAG: ${{ inputs.tag }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
