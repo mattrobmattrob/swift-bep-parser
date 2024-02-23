@@ -43,4 +43,4 @@ jobs:
             "swift-bep-parser.$TAG.tar.gz"
         env:
           TAG: ${{ inputs.tag }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN_GITHUB }}
