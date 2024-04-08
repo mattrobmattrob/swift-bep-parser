@@ -1,10 +1,7 @@
 load(
-    "@build_bazel_rules_swift//proto:proto.bzl",
-    "swift_proto_library",
-)
-load(
     "@build_bazel_rules_swift//swift:swift.bzl",
     "swift_module_alias",
+    "swift_proto_library",
 )
 
 # This is public API for the repository.
@@ -12,10 +9,10 @@ package(default_visibility = ["//visibility:public"])
 
 swift_proto_library(
     name = "build_event_stream_proto_swift_internal",
-    protos = [
+    visibility = ["//visibility:public"],
+    deps = [
         "@io_bazel//src/main/java/com/google/devtools/build/lib/buildeventstream/proto:build_event_stream_proto",
     ],
-    visibility = ["//visibility:public"],
 )
 
 # Rename the Swift module so we can use `import build_event_stream_proto` instead
