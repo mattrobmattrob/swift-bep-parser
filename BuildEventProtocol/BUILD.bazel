@@ -1,7 +1,10 @@
 load(
+    "@build_bazel_rules_swift//proto:proto.bzl",
+    "swift_proto_library",
+)
+load(
     "@build_bazel_rules_swift//swift:swift.bzl",
     "swift_module_alias",
-    "swift_proto_library",
 )
 
 # This is public API for the repository.
