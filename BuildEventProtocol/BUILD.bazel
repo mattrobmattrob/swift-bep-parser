@@ -1,6 +1,6 @@
 load(
     "@build_bazel_rules_swift//proto:proto.bzl",
-    "swift_proto_library",
+    "swift_proto_library_group",
 )
 load(
     "@build_bazel_rules_swift//swift:swift.bzl",
@@ -10,11 +10,9 @@ load(
 # This is public API for the repository.
 package(default_visibility = ["//visibility:public"])
 
-swift_proto_library(
+swift_proto_library_group(
     name = "build_event_stream_proto_swift_internal",
-    protos = [
-        "@io_bazel//src/main/java/com/google/devtools/build/lib/buildeventstream/proto:build_event_stream_proto",
-    ],
+    proto = "@io_bazel//src/main/java/com/google/devtools/build/lib/buildeventstream/proto:build_event_stream_proto",
     visibility = ["//visibility:public"],
 )
 
