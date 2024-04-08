@@ -13,7 +13,7 @@ package(default_visibility = ["//visibility:public"])
 swift_proto_library(
     name = "build_event_stream_proto_swift_internal",
     visibility = ["//visibility:public"],
-    deps = [
+    protos = [
         "@io_bazel//src/main/java/com/google/devtools/build/lib/buildeventstream/proto:build_event_stream_proto",
     ],
 )
